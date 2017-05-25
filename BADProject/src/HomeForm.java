@@ -3,6 +3,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 
 
@@ -19,16 +22,16 @@ public class HomeForm extends JFrame implements ActionListener {
 	JPanel p1 = new JPanel();
 	ImageIcon logo = new ImageIcon("Image/logoAG.jpg");
 	
-	//ImageIcon imageIcon = new ImageIcon("./img/imageName.png"); // load the image to a imageIcon
-	Image image = logo.getImage(); // transform it 
-	Image newimg = image.getScaledInstance(420, 250,  Image.SCALE_SMOOTH); // scale it the smooth way  
-	ImageIcon newLogo = new ImageIcon(newimg);  // transform it back
+	Image image = logo.getImage();
+	Image newimg = image.getScaledInstance(420, 250,  Image.SCALE_SMOOTH);
+	ImageIcon newLogo = new ImageIcon(newimg);
 	
 	JLabel Ag = new JLabel("",newLogo,SwingConstants.CENTER);
 	JButton signIn = new JButton("Sign In");
 	JButton signUp = new JButton("Sign Up");
 	
-	//JDesktopPane desktopPane = new JDesktopPane();
+	LoginForm loginForm = new LoginForm();
+	RegisterForm registerForm = new RegisterForm();
 	
 	HomeForm(){
 		
@@ -41,8 +44,10 @@ public class HomeForm extends JFrame implements ActionListener {
 		this.add(Ag, BorderLayout.NORTH);
 		this.add(p1, BorderLayout.SOUTH);
 		
+		signIn.addActionListener(this);
+		signUp.addActionListener(this);
+		
 		this.setTitle("AGemo Watch Shop");
-		//this.setContentPane(desktopPane);
 		this.setSize(420,330);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -50,14 +55,26 @@ public class HomeForm extends JFrame implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		new HomeForm();
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
+		new HomeForm();
 	}
 
+
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == signIn){
+			this.dispose();
+			loginForm.setVisible(true);
+			
+		}else if(e.getSource() == signUp){
+			this.dispose();
+			registerForm.setVisible(true);
+		}
 	}
 
 }
